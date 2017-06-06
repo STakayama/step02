@@ -9,12 +9,12 @@ contains
     real(8), intent(in) :: a(n,n), b(n,n)
     real(8), intent(out) :: c(n,n) 
     integer::i,j,k
-    do i = 0, n-1
-       do j = 0, n-1
-          do k = 0, n-1
+    do i = 1, n
+       do j = 1, n
+          do k = 1, n
              c(i,j) = c(i,j) + a(i,k)*b(k,j)
           end do
-          write(*,'(5f22.15)') (c(i,j))
+      !    write(*,'(5f22.15)') (c(i,j))
        end do
     end do
 
@@ -30,11 +30,11 @@ program matrix
   integer::i,j,sum
   real(8):: a(n,n), b(n,n), c(n,n)
 
-  do i=0,n-1
-     do j=0,n-1
-        a(i,j)=i*n+j
+  do i=1,n
+     do j=1,n
+        a(i,j)=(i-1)*n+(j-1)
         !Cと並び方違う(二次元配列でもメモリ内部では一次元)、初期化必要
-        b(i,j)=j*n+i
+        b(i,j)=(j-1)*n+(i-1)
         c(i,j)=0
         !       write(*,'(5f22.15)') (b(i,j))
      end do
@@ -47,14 +47,11 @@ program matrix
   sum=0
 
 
-  do i=0,n-1
-     do j=0,n-1
+  do i=1,n
+     do j=1,n
         sum=sum+c(i,j)
-
-        write(*,'(5f22.15)') c(i,j)
-        write(*,*) 'sum:',sum
      end do
   end do
-  !  write(*,*) 'sum:',sum
+  write(*,*) 'sum:',sum
 
 end program matrix
