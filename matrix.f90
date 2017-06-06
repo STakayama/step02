@@ -27,7 +27,7 @@ end module mul
 program matrix
   use mul
   implicit none
-  integer::i,j,sum
+  integer::i,j,sum,time,f_time,t_rate,t_max,diff
   real(8):: a(n,n), b(n,n), c(n,n)
 
   do i=1,n
@@ -41,8 +41,19 @@ program matrix
   end do
 
   !  long begin = System.currentTimeMillis();
+  call system_clock(time)
 
   call mul_matrix(a,b,c) !最初の14だけ0
+
+  call system_clock(f_time, t_rate, t_max)
+  !計測終わり
+
+   if (f_time<time) then
+    diff = (t_max - time) + f_time + 1
+  else
+    diff = f_time - time
+  endif
+  print "(A, F10.3)", "time:", diff/dble(t_rate)
 
   sum=0
 
