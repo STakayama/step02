@@ -11,12 +11,31 @@ double get_time()
 
 int main(int argc, char** argv)
 {
+  //datファイル作成用
+  FILE *fp;
+  char str[256];
+  char str_n[1000];
+  double time;
+  
+  fp=fopen("c_re.dat","w");
+
+  if(fp==NULL){
+    printf("failed");
+    return -1;
+  }
+
+  
   if (argc != 2) {
     printf("usage: %s N\n", argv[0]);
     return -1;
   }
 
-  int n = atoi(argv[1]);
+  int N = atoi(argv[1]);
+  int n=0;
+  
+  for(n=2;n<N+1;n++){
+
+
   double* a = (double*)malloc(n * n * sizeof(double)); // Matrix A
   double* b = (double*)malloc(n * n * sizeof(double)); // Matrix B
   double* c = (double*)malloc(n * n * sizeof(double)); // Matrix C
@@ -46,7 +65,8 @@ int main(int argc, char** argv)
   /**************************************/
 
   double end = get_time();
-  printf("time: %.6lf sec\n", end - begin);
+  time=end-begin;
+  printf("time: %.6lf sec\n", time);
 
   // Print C for debugging. Comment out the print before measuring the execution time.
   double sum = 0;
@@ -59,10 +79,24 @@ int main(int argc, char** argv)
   // Print out the sum of all values in C.
   // This should be 450 for N=3, 3680 for N=4, and 18250 for N=5.
   printf("sum: %.6lf\n", sum);
+  
+  //  ファイルに書き込み
+  //sprintf(str, "%s", end-begin);
+  fprintf(fp,"%d %6lf\n",n,time);//こいつ
+  //  fwrite(&n,sizeof(n),1,fp);
+  // fwrite(&time,sizeof(time),1,fp);
 
+printf("a");
+  
   free(a);
   free(b);
   free(c);
+
+  //forここまで
+  }
+
+  
+  fclose(fp);
   return 0;
 }
 
